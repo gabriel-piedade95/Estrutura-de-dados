@@ -2,7 +2,7 @@
 #include<stdlib.h>
 
 typedef struct cel{
-	int linha;
+	int valor;
 	struct cel * proximo;
 } celula;
 
