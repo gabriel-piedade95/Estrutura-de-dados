@@ -126,3 +126,20 @@ void inverteLista(celula ** inicio){
 	*inicio = ant;
 }
 
+celula * inverte(celula * inicio){
+
+	celula * ant = NULL;
+	celula * atual = inicio->proximo;
+	celula * prox = NULL;	
+
+	while(atual != NULL){
+
+		prox= atual->proximo;
+
+		atual->proximo = ant;
+		ant = atual;
+		atual = prox;
+	}
+	inicio->proximo = ant;
+	return(inicio);
+}
