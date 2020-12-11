@@ -8,7 +8,7 @@ int vazia(celula * inicio){
 
 void imprimeLista (celula * inicio) {
   if (!vazia(inicio)) {
-    printf ("%d ", inicio->linha);
+    printf ("%d ", inicio->valor);
     imprimeLista (inicio->proximo);
   }
   else printf("\n"); 
@@ -27,13 +27,13 @@ void insereFim(celula * inicio, int n){
 		aux = aux->proximo;
 	}
 	aux->proximo = nova; 
-	nova->linha = n;
+	nova->valor = n;
 	nova->proximo = NULL;
 }
 
 void insereInicio(celula ** inicio, int n){
 	celula * nova = (celula*)malloc(sizeof(celula)); 
-	nova->linha = n;
+	nova->valor = n;
 	nova->proximo = *inicio;
 	*inicio = nova;
 }
@@ -45,7 +45,7 @@ void inserePos(celula ** inicio, int pos, int n){
 		}
 		celula * aux = *inicio;
 		celula * nova = (celula*)malloc(sizeof(celula));
-		nova->linha = n;
+		nova->valor = n;
 		int i = 1;
 		while(i != pos){
 			aux = aux->proximo;
@@ -68,7 +68,7 @@ int tamanhoLista(celula * inicio){
 }
 
 celula * busca(celula * inicio, int n){
-	if(vazia(inicio)|| inicio->linha == n){
+	if(vazia(inicio)|| inicio->valor == n){
 		return(inicio);
 	}
 	return(busca(inicio->proximo, n));
@@ -104,7 +104,7 @@ celula * removeCelula(celula * inicio, int n){
 	if(vazia(inicio)){
 		return(inicio);
 	}
-	if(inicio->linha == n){
+	if(inicio->valor == n){
 		return(removeInicio(inicio));
 	} else{
 		inicio->proximo = removeCelula(inicio->proximo, n);
