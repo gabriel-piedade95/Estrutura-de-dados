@@ -9,6 +9,7 @@ listaL * criaListaLigada(){
 	inicio->conta = 1;
 	inicio->linha = 0;
 	inicio->proxima = NULL;
+	return(inicio);
 }
 
 listaP * criaListaPalavras(){
@@ -17,13 +18,14 @@ listaP * criaListaPalavras(){
 	inicio->palavra = "";
 	inicio->contagem = NULL;
 	inicio->proxima = NULL;
+	return(inicio);
 }
 
 int hash(char * palavra){
 
-	int i = 0;
+	int i;
 	unsigned long aux = 0;
-	for(i; i < strlen(palavra); i++){
+	for(i = 0; i < strlen(palavra); i++){
 		aux = palavra[i] + (aux*23); 
 	}
 	return(aux % tam_max);
@@ -31,10 +33,10 @@ int hash(char * palavra){
 
 hash_Tab * criaTabela(void){
 	hash_Tab * tabela;
-	int i = 0;
+	int i;
 	tabela = (hash_Tab*) malloc(tam_max * sizeof(hash_Tab));
 
-	for(i; i < tam_max; i++){
+	for(i = 0; i < tam_max; i++){
 		tabela[i] = malloc(sizeof(hash_Tab));
 		tabela[i]->lista_p = NULL;
 	}	
@@ -67,7 +69,14 @@ void insereFimListaPalavras(listaP * inicio, char * plv, int lin){
 	nova->contagem = criaListaLigada();
 	nova->contagem->linha = lin;
 	nova->proxima = NULL;
+}
 
+void insereFimPalavraNo(listaP * inicio, listaP * nova){
+	listaP * aux = inicio;
+	while(aux->proxima != NULL){
+		aux = aux->proxima;
+	}
+	aux->proxima = nova;
 }
 
 listaL * buscaLinha(listaL * inicio, int lin){
@@ -87,8 +96,8 @@ listaP * buscaPalavra(listaP * inicio, char * plv){
 void insereTabela(hash_Tab * tabela, char * plv, int lin){
 
 	int pos = hash(plv);
-	listaP * nova = criaListaPalavras();
 	if(tabela[pos]->lista_p == NULL){
+		listaP * nova = criaListaPalavras();
 		nova->palavra = plv;
 		nova->contagem = criaListaLigada();
 		nova->contagem->linha = lin;
@@ -142,9 +151,39 @@ void imprimeListaPalavras(listaP * inicio){
 }
 
 void imprimeTabela(hash_Tab * tab){
-	int i = 0;
-	for(i; i < tam_max; i++){
+	int i;
+	for(i = 0; i < tam_max; i++){
 		imprimeListaPalavras(tab[i]->lista_p);
 	}
 }
 
+void libera_listaL(listaL * inicio){
+	listaL * temp;
+	while(inicio != NULL){
+		temp = inicio;
+		inicio = inicio->proxima;
+		free(temp);
+	}
+}
+
+void libera_listaP(listaP * inicio){
+	listaP * temp;
+	while(inicio != NULL){
+		if(inicio->contagem != NULL){
+			libera_listaL(inicio->contagem);
+		}
+		temp = inicio;
+		inicio = inicio->proxima;
+		free(temp);
+	}
+}
+
+void libera_hashTab(hash_Tab * tab){
+	int i;
+	for(i = 0; i < tam_max; i++){
+		if(tab[i] != NULL){
+			free(tab[i]);
+		}
+	}
+	free(tab);
+}

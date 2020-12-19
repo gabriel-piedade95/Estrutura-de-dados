@@ -38,6 +38,12 @@ void insereFimListaPalavras(listaP * inicio, char * plv, int lin);
 void insereTabela(hash_Tab * tabela, char * plv, int lin);
 void imprimeListaPalavras(listaP * inicio);
 void imprimeTabela(hash_Tab * tab);
+void insereFimPalavraNo(listaP * inicio, listaP * nova);
+void libera_listaL(listaL * inicio);
+void libera_listaP(listaP * inicio);
+void libera_hashTab(hash_Tab * inicio);
+
+
 
 
 
